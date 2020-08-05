@@ -1,5 +1,7 @@
 # circleci-browser-test-with-safari
 
+[![CircleCI](https://circleci.com/gh/ganezasan/circleci-browser-test-with-safari.svg?style=svg)](https://circleci.com/gh/ganezasan/circleci-browser-test-with-safari)
+
 This is example project for test with safari browser.
 The project has circleci config and it has two tests. One uses webdriver and another uses standalone selenium server.
 

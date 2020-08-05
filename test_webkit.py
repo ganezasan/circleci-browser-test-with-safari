@@ -34,17 +34,7 @@ class WebKitFeatureStatusTest(unittest.TestCase):
             
         time.sleep(1)
         filters = self.driver.execute_script("return document.querySelectorAll('.filter-toggle')")
-        self.assertTrue(len(filters) is 8)
-        
-        # Make sure every filter is turned off.
-        for checked_filter in filter(lambda f: f.is_selected(), filters):
-            checked_filter.click()
-        
-        # Make sure you can select every filter.
-        for filt in filters:
-            filt.click()
-            self.assertTrue(filt.is_selected())
-            filt.click()
+        self.assertTrue(len(filters) == 8)
     
     def shown_feature_count(self):
         return len(self.driver.execute_script("return document.querySelectorAll('li.feature:not(.is-hidden)')"))

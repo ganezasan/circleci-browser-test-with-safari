@@ -1,0 +1,70 @@
+version: 2.1
+
+jobs:
+  standalone:
+    parameters:
+      xcode-version:
+        type: string
+    macos:
+      xcode: <<parameters.xcode-version>>
+    steps:
+      - checkout
+      - run:
+          name: enable WebDriver Support
+          command: |
+            defaults write com.apple.Safari IncludeDevelopMenu YES
+            defaults write com.apple.Safari AllowRemoteAutomation 1
+            sudo safaridriver --enable
+            safaridriver -p 0 &
+          background: true
+
+      - run:
+          name: Download Selenium
+          command: curl -O http://selenium-release.storage.googleapis.com/3.6/selenium-server-standalone-3.6.0.jar
+      - run:
+          name: Start Selenium
+          command: java -jar selenium-server-standalone-3.6.0.jar -log selenium.log
+          background: true
+      - run:
+          name: run test
+          command: |
+            npm install
+            node test_standalone.js
+
+  web-driver:
+    parameters:
+      xcode-version:
+        type: string
+    macos:
+      xcode: <<parameters.xcode-version>>
+    steps:
+      - checkout
+      - run:
+          name: Install pyenv
+          command: |
+            brew install pipenv
+            pipenv sync
+      - run:
+          name: enable WebDriver Support
+          command: |
+            defaults write com.apple.Safari IncludeDevelopMenu YES
+            defaults write com.apple.Safari AllowRemoteAutomation 1
+            sudo safaridriver --enable
+            safaridriver -p 0 &
+          background: true
+      - run:
+          name: run
+          command: |
+            pipenv run python test_webkit.py
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - standalone:
+          matrix:
+            parameters:
+              xcode-version: ["12.0.0"]
+      - web-driver: 
+          matrix:
+            parameters:
+              xcode-version: ["12.0.0"]

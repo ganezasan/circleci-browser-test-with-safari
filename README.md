@@ -8,7 +8,7 @@ Python program is based on the below article.
 
 ## Enable webdriver support
 
-On CI environment, just `safaridriver --enable` command doesn't enable the webdriver support, it needs to do steps below.
+On CI environment, just `safaridriver --enable` command doesn't enable the webdriver support, it needs to run steps below.
 
 ```
 defaults write com.apple.Safari IncludeDevelopMenu YES
